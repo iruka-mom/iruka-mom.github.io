@@ -40,8 +40,13 @@
   main{position:relative;z-index:1}
   .icon{cursor:pointer}
   .new{display:inline-block;margin-left:6px;padding:0 7px;border-radius:999px;background:var(--pink);color:#fff;font-size:10px;font-weight:bold;letter-spacing:.05em;vertical-align:2px}
-  .hitokoto{margin:-12px auto 28px;padding:10px 16px;max-width:340px;border-radius:14px;background:rgba(251,248,241,.7);border:1.5px dashed var(--pink);font-size:13px}
-  .hitokoto b{display:block;font-size:11px;color:var(--sub);font-weight:normal;letter-spacing:.1em}
+  .fav{display:block;position:relative;background:var(--card);border-radius:20px;padding:22px 20px 18px;text-decoration:none;color:var(--ink);box-shadow:0 4px 14px rgba(78,63,51,.12);border:2px solid var(--pink);transition:transform .15s}
+  .fav:hover{transform:translateY(-2px)}
+  .fav .ribbon{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--pink);color:#fff;font-size:11px;font-weight:bold;letter-spacing:.1em;padding:3px 14px;border-radius:999px;white-space:nowrap}
+  .fav .big{font-size:40px;line-height:1.2}
+  .fav b{display:block;font-size:17px;margin:4px 0 6px}
+  .fav p{margin:0;font-size:13px;color:var(--sub)}
+  .fav .go{display:inline-block;margin-top:12px;font-size:12px;color:#fff;background:var(--accent);padding:5px 16px;border-radius:999px}
   .cats{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
   .cats a{background:var(--card);color:var(--ink);text-decoration:none;font-size:13px;padding:6px 14px;border-radius:999px;box-shadow:0 2px 6px rgba(78,63,51,.08)}
   .cats a:hover{background:var(--accent);color:#fff}
@@ -61,7 +66,6 @@
   <h1>いるか</h1>
   <p class="tag">ゆる家事と暮らし</p>
   <p class="bio">東京で7歳の男の子を育てるママ。<br>がんばらない家事と暮らしの工夫、<br>買ってよかったものを発信しています。</p>
-  <p class="hitokoto" id="hitokoto" hidden><b>今日のひとこと</b><span></span></p>
 
   <div class="links">
     <a class="btn" href="https://hanabibanban.hatenablog.com/"><span class="em">📝</span><span class="t"><b>ブログ｜いるかのゆる家事と暮らし</b><small>くわしい体験談やまとめはこちら</small></span></a>
@@ -69,6 +73,15 @@
     <a class="btn" href="https://www.instagram.com/mom_vs_ai/"><span class="em">📷</span><span class="t"><b>Instagram</b><small>@mom_vs_ai</small></span></a>
     <a class="btn" href="https://www.threads.com/@mom_vs_ai"><span class="em">💬</span><span class="t"><b>Threads</b><small>@mom_vs_ai</small></span></a>
   </div>
+
+  <h2>今月のお気に入り</h2>
+  <a class="fav" href="https://hanabibanban.hatenablog.com/entry/2026/11/13/130239">
+    <span class="ribbon">♡ いるかの愛用品</span>
+    <span class="big">🧥</span>
+    <b>はんてん</b>
+    <p>寒くて布団から出られない朝の救世主。<br>はおるだけで、朝の家事がぐっとラクに。</p>
+    <span class="go">くわしくはブログで →</span>
+  </a>
 
   <h2>ブログの最新記事</h2>
   <div class="links">
@@ -98,25 +111,6 @@
 <div class="fx" id="fx" aria-hidden="true"></div>
 <script>
 (function(){
-  // 今日のひとこと
-  var words=[
-    "今日は「がんばらなくていい日」にしよう。",
-    "洗濯物はたたまず、ハンガーのまましまってOK。",
-    "床が見えていれば、それはもう片付いている。",
-    "疲れた日は、冷凍うどんがごちそう。",
-    "完璧な家より、笑っている家。",
-    "家事は「ついで」にやると、ちょっとラク。",
-    "5分だけやって、やめてもいい。",
-    "お惣菜は「買ってきた料理」じゃなくて「選んだ料理」。",
-    "食洗機に入らない食器は、そっとしまいこもう。",
-    "今日も子どもとごはんを食べられたら、100点。",
-    "床にものを置かないだけで、掃除がぐっとラクになる。",
-    "眠いときは、寝るのがいちばんの家事。"
-  ];
-  var h=document.getElementById("hitokoto");
-  h.querySelector("span").textContent=words[Math.floor(Math.random()*words.length)];
-  h.hidden=false;
-
   // 新着マーク（3日以内）
   var now=Date.now();
   document.querySelectorAll("a[data-published]").forEach(function(a){
