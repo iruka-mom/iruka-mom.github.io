@@ -16,6 +16,8 @@ for e in root.findall("a:entry", NS)[:COUNT]:
     title = (e.findtext("a:title", "", NS) or "").strip()
     link = next((l.get("href") for l in e.findall("a:link", NS) if l.get("rel", "alternate") == "alternate"), "")
     summary = re.sub(r"\s+", " ", e.findtext("a:summary", "", NS) or "").strip()
+    # 冒頭の「※この記事にはプロモーション（広告）が含まれています。」などの注記を飛ばす
+    summary = re.sub(r"^(?:※[^。]*。\s*)+", "", summary)
     if len(summary) > 24:
         summary = summary[:24] + "…"
     items.append(
