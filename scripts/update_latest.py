@@ -26,7 +26,7 @@ for e in entries[:COUNT]:
     if len(summary) > 24:
         summary = summary[:24] + "…"
     items.append(
-        f'    <a class="btn" href="{html.escape(link)}" data-published="{html.escape(published)}"><span class="em">🆕</span>'
+        f'    <a class="btn" href="{html.escape(link)}" data-published="{html.escape(published)}">'
         f'<span class="t"><b>{html.escape(title)}</b><small>{html.escape(summary)}</small></span></a>'
     )
 

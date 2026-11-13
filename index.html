@@ -39,7 +39,11 @@
   footer{margin-top:40px;font-size:11px;color:var(--sub)}
   main{position:relative;z-index:1}
   .icon{cursor:pointer}
-  .new{display:inline-block;margin-left:6px;padding:0 7px;border-radius:999px;background:var(--pink);color:#fff;font-size:10px;font-weight:bold;letter-spacing:.05em;vertical-align:2px}
+  .latest a.btn{padding:12px 18px}
+  .latest .t{min-width:0}
+  .latest .t b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:14px;line-height:1.55}
+  .latest .t small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+  .new{display:inline-block;margin-right:6px;padding:0 7px;border-radius:999px;background:var(--pink);color:#fff;font-size:10px;font-weight:bold;letter-spacing:.05em;vertical-align:2px}
   .fav{display:block;position:relative;background:var(--card);border-radius:20px;padding:22px 20px 18px;text-decoration:none;color:var(--ink);box-shadow:0 4px 14px rgba(78,63,51,.12);border:2px solid var(--pink);transition:transform .15s}
   .fav a.go{text-decoration:none}
   .fav a.go:hover{opacity:.85}
@@ -89,11 +93,11 @@
   </div>
 
   <h2>ブログの最新記事</h2>
-  <div class="links">
+  <div class="links latest">
     <!-- latest:start -->
-    <a class="btn" href="https://hanabibanban.hatenablog.com/entry/2026/11/13/174536" data-published="2026-11-13T17:45:36+09:00"><span class="em">🆕</span><span class="t"><b>宅配ごはんの「産地」が気になって大手6社を全部調べた話。「中国産不使用」は0社でした</b><small>こんにちは、いるかです🐬 忙しい日は、ごはん作り…</small></span></a>
-    <a class="btn" href="https://hanabibanban.hatenablog.com/entry/2026/11/13/130239" data-published="2026-11-13T13:02:39+09:00"><span class="em">🆕</span><span class="t"><b>朝、寒くて布団から出られない問題。わが家が「はんてん」を始めたら最高だった話</b><small>最近、朝起きると寒くて動けないんです。 布団の中…</small></span></a>
-    <a class="btn" href="https://hanabibanban.hatenablog.com/entry/2026/11/13/112737" data-published="2026-11-13T11:27:37+09:00"><span class="em">🆕</span><span class="t"><b>SHEINの子ども靴から基準値428倍の有害物質…子どもが口にするもの・ふれるもの、どう選ぶ？</b><small>こんにちは、いるかです。 7歳の息子がいると、口…</small></span></a>
+    <a class="btn" href="https://hanabibanban.hatenablog.com/entry/2026/11/13/174536" data-published="2026-11-13T17:45:36+09:00"><span class="t"><b>宅配ごはんの「産地」が気になって大手6社を全部調べた話。「中国産不使用」は0社でした</b><small>こんにちは、いるかです🐬 忙しい日は、ごはん作り…</small></span></a>
+    <a class="btn" href="https://hanabibanban.hatenablog.com/entry/2026/11/13/130239" data-published="2026-11-13T13:02:39+09:00"><span class="t"><b>朝、寒くて布団から出られない問題。わが家が「はんてん」を始めたら最高だった話</b><small>最近、朝起きると寒くて動けないんです。 布団の中…</small></span></a>
+    <a class="btn" href="https://hanabibanban.hatenablog.com/entry/2026/11/13/112737" data-published="2026-11-13T11:27:37+09:00"><span class="t"><b>SHEINの子ども靴から基準値428倍の有害物質…子どもが口にするもの・ふれるもの、どう選ぶ？</b><small>こんにちは、いるかです。 7歳の息子がいると、口…</small></span></a>
     <!-- latest:end -->
   </div>
 
@@ -122,7 +126,7 @@
     var t=Date.parse(a.getAttribute("data-published"));
     if(t && now-t < 3*24*60*60*1000){
       var b=document.createElement("span");b.className="new";b.textContent="NEW";
-      a.querySelector("b").appendChild(b);
+      var t2=a.querySelector("b");t2.insertBefore(b,t2.firstChild);
     }
   });
 
