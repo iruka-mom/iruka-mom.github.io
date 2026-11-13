@@ -7,9 +7,15 @@
 <meta name="description" content="東京で7歳の男の子を育てるママ・いるかのリンク集。がんばらない家事と暮らしの工夫、買ってよかったものを発信しています。">
 <meta property="og:title" content="いるか｜ゆる家事と暮らし">
 <meta property="og:description" content="東京で7歳の男の子を育てるママ・いるかのリンク集。">
-<meta property="og:image" content="https://iruka-mom.github.io/icon.png">
+<meta property="og:image" content="https://iruka-mom.github.io/ogp.png">
 <meta property="og:url" content="https://iruka-mom.github.io/">
-<meta name="twitter:card" content="summary">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="いるか｜ゆる家事と暮らし">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="いるか｜ゆる家事と暮らし">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
@@ -31,6 +37,22 @@
   h2{font-size:14px;color:var(--sub);letter-spacing:.1em;margin:34px 0 12px}
   a.btn.pick{border-left:5px solid var(--pink)}
   footer{margin-top:40px;font-size:11px;color:var(--sub)}
+  main{position:relative;z-index:1}
+  .icon{cursor:pointer}
+  .new{display:inline-block;margin-left:6px;padding:0 7px;border-radius:999px;background:var(--pink);color:#fff;font-size:10px;font-weight:bold;letter-spacing:.05em;vertical-align:2px}
+  .hitokoto{margin:-12px auto 28px;padding:10px 16px;max-width:340px;border-radius:14px;background:rgba(251,248,241,.7);border:1.5px dashed var(--pink);font-size:13px}
+  .hitokoto b{display:block;font-size:11px;color:var(--sub);font-weight:normal;letter-spacing:.1em}
+  .cats{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+  .cats a{background:var(--card);color:var(--ink);text-decoration:none;font-size:13px;padding:6px 14px;border-radius:999px;box-shadow:0 2px 6px rgba(78,63,51,.08)}
+  .cats a:hover{background:var(--accent);color:#fff}
+  .fx{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+  .flake{position:absolute;top:-40px;animation:fall linear forwards;opacity:.75}
+  @keyframes fall{to{transform:translate(var(--dx),110vh) rotate(var(--rot))}}
+  .dolphin{position:fixed;left:100vw;font-size:34px;pointer-events:none;z-index:2;animation:swim 9s linear forwards}
+  .dolphin span{display:inline-block;animation:bob 1.4s ease-in-out infinite}
+  @keyframes swim{to{left:-60px}}
+  @keyframes bob{50%{transform:translateY(-14px) rotate(-12deg)}}
+  @media (prefers-reduced-motion:reduce){.flake,.dolphin{display:none}}
 </style>
 </head>
 <body>
@@ -39,6 +61,7 @@
   <h1>いるか</h1>
   <p class="tag">ゆる家事と暮らし</p>
   <p class="bio">東京で7歳の男の子を育てるママ。<br>がんばらない家事と暮らしの工夫、<br>買ってよかったものを発信しています。</p>
+  <p class="hitokoto" id="hitokoto" hidden><b>今日のひとこと</b><span></span></p>
 
   <div class="links">
     <a class="btn" href="https://hanabibanban.hatenablog.com/"><span class="em">📝</span><span class="t"><b>ブログ｜いるかのゆる家事と暮らし</b><small>くわしい体験談やまとめはこちら</small></span></a>
@@ -56,6 +79,9 @@
     <!-- latest:end -->
   </div>
 
+  <!-- cats:start -->
+  <!-- cats:end -->
+
   <h2>おすすめ記事</h2>
   <div class="links">
     <a class="btn pick" href="https://hanabibanban.hatenablog.com/entry/2026/11/13/112737"><span class="em">🥗</span><span class="t"><b>子どもが口にするもの・ふれるもの、どう選ぶ？</b><small>SHEINの子ども靴から基準値428倍の有害物質…</small></span></a>
@@ -63,5 +89,72 @@
 
   <footer>© いるか</footer>
 </main>
+<div class="fx" id="fx" aria-hidden="true"></div>
+<script>
+(function(){
+  // 今日のひとこと
+  var words=[
+    "今日は「がんばらなくていい日」にしよう。",
+    "洗濯物はたたまず、ハンガーのまましまってOK。",
+    "床が見えていれば、それはもう片付いている。",
+    "疲れた日は、冷凍うどんがごちそう。",
+    "完璧な家より、笑っている家。",
+    "家事は「ついで」にやると、ちょっとラク。",
+    "5分だけやって、やめてもいい。",
+    "お惣菜は「買ってきた料理」じゃなくて「選んだ料理」。",
+    "食洗機に入らない食器は、そっとしまいこもう。",
+    "今日も子どもとごはんを食べられたら、100点。",
+    "床にものを置かないだけで、掃除がぐっとラクになる。",
+    "眠いときは、寝るのがいちばんの家事。"
+  ];
+  var h=document.getElementById("hitokoto");
+  h.querySelector("span").textContent=words[Math.floor(Math.random()*words.length)];
+  h.hidden=false;
+
+  // 新着マーク（3日以内）
+  var now=Date.now();
+  document.querySelectorAll("a[data-published]").forEach(function(a){
+    var t=Date.parse(a.getAttribute("data-published"));
+    if(t && now-t < 3*24*60*60*1000){
+      var b=document.createElement("span");b.className="new";b.textContent="NEW";
+      a.querySelector("b").appendChild(b);
+    }
+  });
+
+  if(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  // 季節の飾り
+  var m=new Date().getMonth()+1;
+  var set = m===12||m<=2 ? ["❄️","❄","⛄"] : m<=4 ? ["🌸","🌸","💮"] : m===5 ? ["🍃","🌿"] : m<=8 ? ["🫧","💧","🐚"] : ["🍁","🍂","🍁"];
+  var fx=document.getElementById("fx");
+  function flake(){
+    var f=document.createElement("span");
+    f.className="flake";
+    f.textContent=set[Math.floor(Math.random()*set.length)];
+    f.style.left=Math.random()*100+"vw";
+    f.style.fontSize=(12+Math.random()*14)+"px";
+    f.style.animationDuration=(9+Math.random()*8)+"s";
+    f.style.setProperty("--dx",(Math.random()*120-60)+"px");
+    f.style.setProperty("--rot",(Math.random()*720-360)+"deg");
+    f.addEventListener("animationend",function(){f.remove()});
+    fx.appendChild(f);
+  }
+  for(var i=0;i<4;i++) setTimeout(flake,i*700);
+  setInterval(function(){ if(!document.hidden) flake(); },1800);
+
+  // イルカがときどき泳ぐ（アイコンをタップしても泳ぐ）
+  function swim(){
+    var d=document.createElement("div");
+    d.className="dolphin";
+    d.style.top=(55+Math.random()*35)+"vh";
+    d.innerHTML="<span>🐬</span>";
+    d.addEventListener("animationend",function(){d.remove()});
+    document.body.appendChild(d);
+  }
+  document.querySelector(".icon").addEventListener("click",swim);
+  setTimeout(swim,2500);
+  (function loop(){ setTimeout(function(){ if(!document.hidden) swim(); loop(); },20000+Math.random()*20000); })();
+})();
+</script>
 </body>
 </html>
